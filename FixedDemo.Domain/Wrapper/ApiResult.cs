@@ -9,17 +9,21 @@ namespace FixedDemo.Domain.Wrapper
         public string? Message { get; set; }
         public List<string> Errors { get; set; } = [];
         public HttpStatusCode StatusCode { get; set; }
-        public static ApiResult<TData> Success(TData data, string message = "", HttpStatusCode statusCode = HttpStatusCode.OK)
+        public static ApiResult<TData> Success(TData data, HttpStatusCode statusCode = HttpStatusCode.OK, string message = "")
         {
             return new ApiResult<TData> { Data = data, IsSuccess = true, Message = message, StatusCode = statusCode };
         }
         public static ApiResult<TData> Success(string message = "", HttpStatusCode statusCode = HttpStatusCode.NoContent)
         {
-            return new ApiResult<TData> { IsSuccess = true, Message = message, StatusCode = statusCode };
+            return new ApiResult<TData> { Message = message,  StatusCode = statusCode, IsSuccess = true };
         }
-        public static ApiResult<TData> Fail(string message = "", List<string>? errors = default, HttpStatusCode statusCode = HttpStatusCode.InternalServerError)
+        public static ApiResult<TData> Fail(List<string>? errors = default, HttpStatusCode statusCode = HttpStatusCode.InternalServerError, string message = "")
         {
             return new ApiResult<TData> { IsSuccess = false, Message = message, Errors = errors, StatusCode = statusCode };
+        }
+        public static ApiResult<TData> Fail(string? error = default, HttpStatusCode statusCode = HttpStatusCode.InternalServerError, string message = "")
+        {
+            return new ApiResult<TData> { IsSuccess = false, Message = message, Errors = [error], StatusCode = statusCode };
         }
     }
 }
