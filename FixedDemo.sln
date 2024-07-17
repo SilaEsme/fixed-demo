@@ -5,8 +5,6 @@ VisualStudioVersion = 17.10.35027.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixedDemo.API", "FixedDemo.API\FixedDemo.API.csproj", "{DCB40192-50DB-47FF-B396-40F165A0BBD5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixedDemo.Presentation", "FixedDemo.Presentation\FixedDemo.Presentation.csproj", "{3749D999-7057-4D57-BED7-3A1769B12FF7}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixedDemo.Domain", "FixedDemo.Domain\FixedDemo.Domain.csproj", "{BA8EE0E6-DE31-4511-BC9C-4AA3A5FC5ABC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixedDemo.Persistence", "FixedDemo.Persistence\FixedDemo.Persistence.csproj", "{B3400434-8688-47CD-9D68-B7EC452CDF26}"
@@ -25,10 +23,6 @@ Global
 		{DCB40192-50DB-47FF-B396-40F165A0BBD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DCB40192-50DB-47FF-B396-40F165A0BBD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DCB40192-50DB-47FF-B396-40F165A0BBD5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3749D999-7057-4D57-BED7-3A1769B12FF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3749D999-7057-4D57-BED7-3A1769B12FF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3749D999-7057-4D57-BED7-3A1769B12FF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3749D999-7057-4D57-BED7-3A1769B12FF7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BA8EE0E6-DE31-4511-BC9C-4AA3A5FC5ABC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BA8EE0E6-DE31-4511-BC9C-4AA3A5FC5ABC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA8EE0E6-DE31-4511-BC9C-4AA3A5FC5ABC}.Release|Any CPU.ActiveCfg = Release|Any CPU
