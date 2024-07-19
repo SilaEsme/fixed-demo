@@ -5,7 +5,7 @@ using FixedDemo.Application.Core.Abstract.Data;
 using FixedDemo.Domain.Primitives;
 namespace FixedDemo.Persistence
 {
-    public class AppDbContext : DbContext, IDbContext
+    public partial class AppDbContext : DbContext, IDbContext
     {
         public AppDbContext(DbContextOptions options) : base(options)
         {
