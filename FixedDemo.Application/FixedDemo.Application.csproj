@@ -20,7 +20,6 @@
   <ItemGroup>
     <Folder Include="Asset\EventHandlers\" />
     <Folder Include="User\EventHandlers\" />
-    <Folder Include="User\Queries\" />
   </ItemGroup>
 
   <ItemGroup>

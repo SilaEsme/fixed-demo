@@ -6,25 +6,25 @@ using FixedDemo.Application.Core.Helpers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace FixedDemo.Application.User.Commands
+namespace FixedDemo.Application.User.Queries
 {
-    public record class LoginUserCommand : IRequest<Domain.Wrapper.ApiResult<UserDataDto>>
+    public record class LoginUserQuery : IRequest<Domain.Wrapper.ApiResult<UserDataDto>>
     {
         public required string Email { get; set; }
         public required string Password { get; set; }
     }
-    internal sealed class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Domain.Wrapper.ApiResult<UserDataDto>>
+    internal sealed class LoginUserQueryHandler : IRequestHandler<LoginUserQuery, Domain.Wrapper.ApiResult<UserDataDto>>
     {
         private readonly IDbContext _context;
         private readonly IMapper _mapper;
         private readonly IJwtProvider _jwtProvider;
-        public LoginUserCommandHandler(IDbContext context, IMapper mapper, IJwtProvider jwtProvider)
+        public LoginUserQueryHandler(IDbContext context, IMapper mapper, IJwtProvider jwtProvider)
         {
             _context = context;
             _mapper = mapper;
             _jwtProvider = jwtProvider;
         }
-        public async Task<Domain.Wrapper.ApiResult<UserDataDto>> Handle(LoginUserCommand request, CancellationToken cancellationToken)
+        public async Task<Domain.Wrapper.ApiResult<UserDataDto>> Handle(LoginUserQuery request, CancellationToken cancellationToken)
         {
             var user = await _context.Set<Domain.Entities.User>().FirstOrDefaultAsync(x => x.Email == request.Email, cancellationToken);
             if (user == null)
