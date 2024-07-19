@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using FixedDemo.Application.Core.Abstract.Data;
 using FixedDemo.Domain.Primitives;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 namespace FixedDemo.Persistence
 {
     public partial class AppDbContext : DbContext, IDbContext, IUnitOfWork
@@ -48,8 +49,57 @@ namespace FixedDemo.Persistence
             => Set<TEntity>().RemoveRange(entities);
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
+            DateTime now = DateTime.Now;
+            UpdateAuditableEntities(now);
+            UpdateSoftDeletableEntities(now);
             return await base.SaveChangesAsync(cancellationToken);
         }
 
+        private void UpdateAuditableEntities(DateTime now)
+        {
+            foreach (EntityEntry<BaseObject> entityEntry in ChangeTracker.Entries<BaseObject>())
+            {
+                if (entityEntry.State == EntityState.Added)
+                {
+                    entityEntry.Property(nameof(BaseObject.CreatedAt)).CurrentValue = now;
+                }
+
+                if (entityEntry.State == EntityState.Modified)
+                {
+                    entityEntry.Property(nameof(BaseObject.UpdatedAt)).CurrentValue = now;
+                }
+            }
+        }
+
+        private void UpdateSoftDeletableEntities(DateTime now)
+        {
+            foreach (EntityEntry<BaseObject> entityEntry in ChangeTracker.Entries<BaseObject>())
+            {
+                if (entityEntry.State != EntityState.Deleted)
+                {
+                    continue;
+                }
+
+                entityEntry.Property(nameof(BaseObject.IsDeleted)).CurrentValue = true;
+
+                entityEntry.State = EntityState.Modified;
+
+                UpdateDeletedEntityEntryReferencesToUnchanged(entityEntry);
+            }
+        }
+        private static void UpdateDeletedEntityEntryReferencesToUnchanged(EntityEntry entityEntry)
+        {
+            if (!entityEntry.References.Any(r => r.TargetEntry != null && r.TargetEntry.Metadata.IsOwned()))
+            {
+                return;
+            }
+
+            foreach (ReferenceEntry referenceEntry in entityEntry.References.Where(r => r.TargetEntry.State == EntityState.Deleted))
+            {
+                referenceEntry.TargetEntry.State = EntityState.Unchanged;
+
+                UpdateDeletedEntityEntryReferencesToUnchanged(referenceEntry.TargetEntry);
+            }
+        }
     }
 }
