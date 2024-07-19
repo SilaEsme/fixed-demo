@@ -1,4 +1,5 @@
 ﻿using FixedDemo.Infrastructure.Identity.Concrete;
+using FixedDemo.Infrastructure.Identity.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,10 +14,10 @@ namespace FixedDemo.Infrastructure.Extentions
             
             using var serviceProvider = services.BuildServiceProvider();
             var configuration = serviceProvider.GetRequiredService<IConfiguration>();
-            Identity.Options.JwtOptions? jwtOptions = configuration.GetSection(nameof(Identity.Options.JwtOptions)).Get<Identity.Options.JwtOptions>();
-            services.Configure<Identity.Options.JwtOptions>(options => options = jwtOptions);
+            var jwtOptions = configuration.GetSection(nameof(Identity.Options.JwtOptions));
+            services.Configure<Identity.Options.JwtOptions>(jwtOptions);
             
-            services.AddJwtAuthentication(jwtOptions);
+            services.AddJwtAuthentication(jwtOptions.Get<Identity.Options.JwtOptions>());
             
             return services;
         }

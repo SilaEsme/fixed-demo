@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace FixedDemo.Application.User.Validations
 {
-    internal class RegisterUserValidator : AbstractValidator<RegisterUserCommand>
+    public class RegisterUserValidator : AbstractValidator<RegisterUserCommand>
     {
         public RegisterUserValidator()
         {

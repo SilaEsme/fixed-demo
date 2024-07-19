@@ -20,10 +20,10 @@ namespace FixedDemo.Infrastructure.Identity.Concrete
             var claims = new List<Claim>()
             {
                 new(JwtRegisteredClaimNames.Iss, _jwtOptions.Iss),
-                new(JwtRegisteredClaimNames.PhoneNumber, user.PhoneNumber),
                 new(JwtRegisteredClaimNames.Email, user.Email),
                 new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
             };
+            if (user.PhoneNumber != null) claims.Add(new(JwtRegisteredClaimNames.PhoneNumber, user.PhoneNumber));
 
             var signingCredentials = new SigningCredentials(new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_jwtOptions.SecretKey)), SecurityAlgorithms.HmacSha256);
             var token = new System.IdentityModel.Tokens.Jwt.JwtSecurityToken(_jwtOptions.Issuer, _jwtOptions.Audience, claims, null, DateTime.Now.AddHours(validHours ?? _jwtOptions.ValidHours), signingCredentials);

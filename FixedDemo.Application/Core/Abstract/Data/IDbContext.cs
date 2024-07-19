@@ -19,6 +19,5 @@ namespace FixedDemo.Application.Core.Abstract.Data
             where TEntity : BaseObject;
         void RemoveRange<TEntity>(IEnumerable<TEntity> entities)
             where TEntity : BaseObject;
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }

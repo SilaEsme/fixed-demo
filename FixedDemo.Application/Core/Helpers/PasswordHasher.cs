@@ -23,7 +23,6 @@ namespace FixedDemo.Application.Core.Helpers
             {
                 passwordSalt = hmac.Key;
                 passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-
             }
         }
     }

@@ -14,20 +14,20 @@ namespace FixedDemo.API.Controllers
         {
             _mediator = mediator;
         }
-        [HttpGet]
-        public async Task<IActionResult> Login(LoginUserQuery request)
+        [HttpPost("[action]")]
+        public async Task<IActionResult> Login([FromBody] LoginUserQuery request)
         {
             var result = await _mediator.Send(request);
             return CreateActionResult(result);
         }
-        [HttpPost]
+        [HttpPost("[action]")]
         public async Task<IActionResult> Register([FromBody] RegisterUserCommand command)
         {
             var result = await _mediator.Send(command);
             return CreateActionResult(result);
         }
         [Authorize]
-        [HttpGet]
+        [HttpGet("[action]")]
         public async Task<IActionResult> Me()
         {
             Guid userId = GetUserIdFromHeader();

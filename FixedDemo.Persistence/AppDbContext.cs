@@ -1,16 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
-
-
 using FixedDemo.Application.Core.Abstract.Data;
 using FixedDemo.Domain.Primitives;
 namespace FixedDemo.Persistence
 {
-    public partial class AppDbContext : DbContext, IDbContext
+    public partial class AppDbContext : DbContext, IDbContext, IUnitOfWork
     {
         public AppDbContext(DbContextOptions options) : base(options)
         {
             
         }
+
         #region DbSets
         public DbSet<Domain.Entities.User> Users { get; set; }
         public DbSet<Domain.Entities.Asset> Assets { get; set; }
@@ -47,6 +46,10 @@ namespace FixedDemo.Persistence
         public void RemoveRange<TEntity>(IEnumerable<TEntity> entities)
              where TEntity : BaseObject
             => Set<TEntity>().RemoveRange(entities);
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            return await base.SaveChangesAsync(cancellationToken);
+        }
 
     }
 }

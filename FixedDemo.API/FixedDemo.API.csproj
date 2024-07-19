@@ -16,6 +16,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FixedDemo.Application\FixedDemo.Application.csproj" />
+    <ProjectReference Include="..\FixedDemo.Infrastructure\FixedDemo.Infrastructure.csproj" />
+    <ProjectReference Include="..\FixedDemo.Persistence\FixedDemo.Persistence.csproj" />
   </ItemGroup>
 
 </Project>
