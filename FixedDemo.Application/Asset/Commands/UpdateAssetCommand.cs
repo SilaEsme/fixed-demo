@@ -1,6 +1,9 @@
-﻿using FixedDemo.Application.Core.Dtos.Asset;
+﻿using AutoMapper;
+using FixedDemo.Application.Core.Abstract.Data;
+using FixedDemo.Application.Core.Dtos.Asset;
 using FixedDemo.Domain.Wrapper;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace FixedDemo.Application.Asset.Commands
 {
@@ -13,9 +16,26 @@ namespace FixedDemo.Application.Asset.Commands
     }
     internal sealed class UpdateAssetCommandHandler : IRequestHandler<UpdateAssetCommand, ApiResult<AssetDto>>
     {
-        public Task<ApiResult<AssetDto>> Handle(UpdateAssetCommand request, CancellationToken cancellationToken)
+        private readonly ILogger<UpdateAssetCommandHandler> _logger;
+        private readonly IDbContext _dbContext;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
+        public UpdateAssetCommandHandler(ILogger<UpdateAssetCommandHandler> logger, IDbContext dbContext, IUnitOfWork unitOfWork, IMapper mapper)
         {
-            throw new NotImplementedException();
+            _logger = logger;
+            _dbContext = dbContext;
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
+        }
+        public async Task<ApiResult<AssetDto>> Handle(UpdateAssetCommand request, CancellationToken cancellationToken)
+        {
+            Domain.Entities.Asset? asset = await _dbContext.GetByIdAsync<Domain.Entities.Asset>(request.Id, cancellationToken);
+            if (asset == null) return ApiResult<AssetDto>.Fail("Asset not found.", System.Net.HttpStatusCode.NotFound);
+
+            Domain.Entities.Asset updatedAsset = _mapper.Map(request, asset);
+            _dbContext.Set<Domain.Entities.Asset>().Update(updatedAsset);
+            _ = await _unitOfWork.SaveChangesAsync(cancellationToken);
+            return ApiResult<AssetDto>.Success(_mapper.Map<AssetDto>(updatedAsset));
         }
     }
 }

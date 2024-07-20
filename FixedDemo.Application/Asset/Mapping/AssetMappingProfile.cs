@@ -7,6 +7,8 @@ namespace FixedDemo.Application.Asset.Mapping
         public AssetMappingProfile()
         {
             CreateMap<Domain.Entities.Asset, Core.Dtos.Asset.AssetDto>();
+            CreateMap<Commands.CreateAssetCommand, Domain.Entities.Asset>();
+            CreateMap<Commands.UpdateAssetCommand, Domain.Entities.Asset>();
         }
     }
 }

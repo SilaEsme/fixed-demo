@@ -1,6 +1,8 @@
-﻿using FixedDemo.Domain.Primitives;
+﻿using FixedDemo.Application.Core.Abstract.Data;
+using FixedDemo.Domain.Primitives;
 using FixedDemo.Domain.Wrapper;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace FixedDemo.Application.Asset.Commands
 {
@@ -10,9 +12,20 @@ namespace FixedDemo.Application.Asset.Commands
     }
     internal sealed class DeleteAssetCommandHandler : IRequestHandler<DeleteAssetCommand, ApiResult<NoContent>>
     {
-        public Task<ApiResult<NoContent>> Handle(DeleteAssetCommand request, CancellationToken cancellationToken)
+        private readonly ILogger<DeleteAssetCommandHandler> _logger;
+        private readonly IDbContext _dbContext;
+        private readonly IUnitOfWork _unitOfWork;
+        public DeleteAssetCommandHandler(ILogger<DeleteAssetCommandHandler> logger, IDbContext dbContext, IUnitOfWork unitOfWork)
         {
-            throw new NotImplementedException();
+            _logger = logger;
+            _dbContext = dbContext;
+            _unitOfWork = unitOfWork;
+        }
+        public async Task<ApiResult<NoContent>> Handle(DeleteAssetCommand request, CancellationToken cancellationToken)
+        {
+            _dbContext.Remove<Domain.Entities.Asset>(request.Id);
+            _ = await _unitOfWork.SaveChangesAsync(cancellationToken);
+            return ApiResult<NoContent>.Success();
         }
     }
 }
