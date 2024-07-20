@@ -7,7 +7,7 @@ namespace FixedDemo.Application.Asset.Validations
     {
         public CreateAssetValidator()
         {
-
+            
         }
     }
 }

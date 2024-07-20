@@ -6,7 +6,7 @@ namespace FixedDemo.Domain.Wrapper
     {
         public ApiResult()
         {
-
+            
         }
 
         public TData? Data { get; set; }

@@ -1,6 +1,6 @@
-﻿using FixedDemo.Application.Core.Abstract.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using FixedDemo.Application.Core.Abstract.Data;
 using FixedDemo.Domain.Primitives;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 namespace FixedDemo.Persistence
 {
@@ -8,7 +8,7 @@ namespace FixedDemo.Persistence
     {
         public AppDbContext(DbContextOptions options) : base(options)
         {
-
+            
         }
 
         #region DbSets
