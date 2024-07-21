@@ -1,4 +1,4 @@
-﻿namespace FixedDemo.Application.Core.Dtos
+﻿namespace FixedDemo.Shared.Dtos
 {
     public class FilterDto
     {

@@ -1,4 +1,4 @@
-﻿using FixedDemo.Application.Core.Dtos;
+﻿using FixedDemo.Shared.Dtos;
 using System.Linq.Expressions;
 
 namespace FixedDemo.Application.Core.Extentions

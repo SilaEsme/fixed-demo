@@ -8,7 +8,7 @@ namespace FixedDemo.API.Abstract
     public class CustomControllerBase : ControllerBase
     {
         [NonAction]
-        public IActionResult CreateActionResult<T>(Domain.Wrapper.ApiResult<T> result)
+        public IActionResult CreateActionResult<T>(Shared.Wrapper.ApiResult<T> result)
         {
             if (result.StatusCode == System.Net.HttpStatusCode.NoContent)
                 return new NoContentResult();

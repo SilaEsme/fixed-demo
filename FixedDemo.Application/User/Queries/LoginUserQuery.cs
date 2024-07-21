@@ -1,19 +1,19 @@
 ﻿using AutoMapper;
 using FixedDemo.Application.Core.Abstract.Data;
 using FixedDemo.Application.Core.Abstract.Identity;
-using FixedDemo.Application.Core.Dtos.User;
 using FixedDemo.Application.Core.Helpers;
+using FixedDemo.Shared.Dtos.User;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace FixedDemo.Application.User.Queries
 {
-    public record class LoginUserQuery : IRequest<Domain.Wrapper.ApiResult<UserDataDto>>
+    public record class LoginUserQuery : IRequest<Shared.Wrapper.ApiResult<UserDataDto>>
     {
         public required string Email { get; set; }
         public required string Password { get; set; }
     }
-    internal sealed class LoginUserQueryHandler : IRequestHandler<LoginUserQuery, Domain.Wrapper.ApiResult<UserDataDto>>
+    internal sealed class LoginUserQueryHandler : IRequestHandler<LoginUserQuery, Shared.Wrapper.ApiResult<UserDataDto>>
     {
         private readonly IDbContext _context;
         private readonly IMapper _mapper;
@@ -24,18 +24,18 @@ namespace FixedDemo.Application.User.Queries
             _mapper = mapper;
             _jwtProvider = jwtProvider;
         }
-        public async Task<Domain.Wrapper.ApiResult<UserDataDto>> Handle(LoginUserQuery request, CancellationToken cancellationToken)
+        public async Task<Shared.Wrapper.ApiResult<UserDataDto>> Handle(LoginUserQuery request, CancellationToken cancellationToken)
         {
             var user = await _context.Set<Domain.Entities.User>().FirstOrDefaultAsync(x => x.Email == request.Email, cancellationToken);
             if (user == null)
             {
-                return Domain.Wrapper.ApiResult<UserDataDto>.Fail("User not found.", System.Net.HttpStatusCode.NotFound);
+                return Shared.Wrapper.ApiResult<UserDataDto>.Fail("User not found.", System.Net.HttpStatusCode.NotFound);
             }
             if (!PasswordHasher.VerifyPassword(request.Password, user.PasswordHash, user.PasswordSalt))
             {
-                return Domain.Wrapper.ApiResult<UserDataDto>.Fail("Invalid password.", System.Net.HttpStatusCode.BadRequest);
+                return Shared.Wrapper.ApiResult<UserDataDto>.Fail("Invalid password.", System.Net.HttpStatusCode.BadRequest);
             }
-            return Domain.Wrapper.ApiResult<UserDataDto>.Success(new UserDataDto() { User = _mapper.Map<UserDto>(user), Token = _jwtProvider.GenerateToken(user) }, System.Net.HttpStatusCode.OK);
+            return Shared.Wrapper.ApiResult<UserDataDto>.Success(new UserDataDto() { User = _mapper.Map<UserDto>(user), Token = _jwtProvider.GenerateToken(user) }, System.Net.HttpStatusCode.OK);
         }
     }
 }

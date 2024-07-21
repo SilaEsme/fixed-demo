@@ -1,4 +1,4 @@
-﻿namespace FixedDemo.Application.Core.Dtos.User
+﻿namespace FixedDemo.Shared.Dtos.User
 {
     public class TokenDto
     {

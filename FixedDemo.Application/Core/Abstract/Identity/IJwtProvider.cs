@@ -1,4 +1,4 @@
-﻿using FixedDemo.Application.Core.Dtos.User;
+﻿using FixedDemo.Shared.Dtos.User;
 
 namespace FixedDemo.Application.Core.Abstract.Identity
 {

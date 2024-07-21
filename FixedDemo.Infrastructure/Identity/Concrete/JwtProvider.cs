@@ -1,6 +1,6 @@
 ﻿using FixedDemo.Application.Core.Abstract.Identity;
-using FixedDemo.Application.Core.Dtos.User;
 using FixedDemo.Infrastructure.Identity.Options;
+using FixedDemo.Shared.Dtos.User;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;

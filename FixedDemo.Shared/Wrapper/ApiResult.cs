@@ -1,12 +1,12 @@
 ﻿using System.Net;
 
-namespace FixedDemo.Domain.Wrapper
+namespace FixedDemo.Shared.Wrapper
 {
     public class ApiResult<TData>
     {
         public ApiResult()
         {
-            
+
         }
 
         public TData? Data { get; set; }

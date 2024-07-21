@@ -1,0 +1,59 @@
+﻿@page "/register"
+@using FixedDemo.Shared.Dtos.User
+@inject IAuthenticationService _authService
+@inject NavigationManager _navigationManager
+
+<PageTitle>Register</PageTitle>
+<EditForm Model = "model" OnValidSubmit="HandleRegistration">
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+    <div class="mb-3">
+        <label for="name">Name</label>
+        <InputText id="name" @bind-Value="model.Name" class="form-control"></InputText>
+        <ValidationMessage For="@(()=>model.Name)"></ValidationMessage>
+    </div>
+    <div class="mb-3">
+        <label for="email">Email</label>
+        <InputText id="email" @bind-Value="model.Email" class="form-control"></InputText>
+        <ValidationMessage For="@(()=>model.Email)"></ValidationMessage>
+    </div>
+    <div class="mb-3">
+        <label for="phone-number">Phone Number</label>
+        <InputText id="phone-number" @bind-Value="model.PhoneNumber" class="form-control"></InputText>
+        <ValidationMessage For="@(()=>model.PhoneNumber)"></ValidationMessage>
+    </div>
+    <div class="mb-3">
+        <label for="password">Password</label>
+        <InputText id="password" @bind-Value="model.Password" class="form-control"></InputText>
+        <ValidationMessage For="@(()=>model.Password)"></ValidationMessage>
+    </div>
+    <div class="mb-3">
+        <label for="confirm-password">Phone Number</label>
+        <InputText id="confirm-password" @bind-Value="model.ConfirmPassword" class="form-control"></InputText>
+        <ValidationMessage For="@(()=>model.ConfirmPassword)"></ValidationMessage>
+    </div>
+    <button type="submit" class="btn btn-primary">Register</button>
+    <ValidationSummary></ValidationSummary>
+    <div class=@messageCssClass>
+        <span>@message</span>
+    </div>
+</EditForm>
+
+@code {
+    RegisterRequestDto model = new();
+    string message = string.Empty;
+    string messageCssClass = string.Empty;
+
+    private async Task HandleRegistration()
+    {
+        var result = await _authService.RegisterAsync(model);
+        _navigationManager.NavigateTo("/");
+        if (!result.IsSuccess)
+        {
+            messageCssClass = "alert alert-danger";
+        }
+        else
+        {
+            messageCssClass = "text-success";
+        }
+    }
+}

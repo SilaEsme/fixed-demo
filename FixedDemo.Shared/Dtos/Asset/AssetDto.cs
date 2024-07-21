@@ -1,4 +1,4 @@
-﻿namespace FixedDemo.Application.Core.Dtos.Asset
+﻿namespace FixedDemo.Shared.Dtos.Asset
 {
     /// <summary>
     /// General Asset Dto

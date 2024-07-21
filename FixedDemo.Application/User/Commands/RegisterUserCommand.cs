@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
 using FixedDemo.Application.Core.Abstract.Data;
 using FixedDemo.Application.Core.Abstract.Identity;
-using FixedDemo.Application.Core.Dtos.User;
 using FixedDemo.Application.Core.Helpers;
+using FixedDemo.Shared.Dtos.User;
 using MediatR;
 
 namespace FixedDemo.Application.User.Commands
 {
-    public record class RegisterUserCommand : IRequest<Domain.Wrapper.ApiResult<UserDataDto>>
+    public record class RegisterUserCommand : IRequest<Shared.Wrapper.ApiResult<UserDataDto>>
     {
         public required string Name { get; set; }
         public required string Email { get; set; }
@@ -15,7 +15,7 @@ namespace FixedDemo.Application.User.Commands
         public required string Password { get; set; }
         public required string ConfirmPassword { get; set; }
     }
-    internal sealed class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, Domain.Wrapper.ApiResult<UserDataDto>>
+    internal sealed class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, Shared.Wrapper.ApiResult<UserDataDto>>
     {
         private readonly IDbContext _dbContext;
         private readonly IUnitOfWork _unitOfWork;
@@ -28,7 +28,7 @@ namespace FixedDemo.Application.User.Commands
             _jwtProvider = jwtProvider;
             _unitOfWork = unitOfWork;
         }
-        public async Task<Domain.Wrapper.ApiResult<UserDataDto>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
+        public async Task<Shared.Wrapper.ApiResult<UserDataDto>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
             var user = _mapper.Map<Domain.Entities.User>(request);
             PasswordHasher.CreatePasswordHash(request.Password, out var passwordHash, out var passwordSalt);
@@ -36,7 +36,7 @@ namespace FixedDemo.Application.User.Commands
             user.PasswordSalt = passwordSalt;
             var createdUser = _dbContext.Insert(user);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
-            return Domain.Wrapper.ApiResult<UserDataDto>.Success(new UserDataDto() { User = _mapper.Map<UserDto>(createdUser), Token = _jwtProvider.GenerateToken(createdUser) }, System.Net.HttpStatusCode.Created);
+            return Shared.Wrapper.ApiResult<UserDataDto>.Success(new UserDataDto() { User = _mapper.Map<UserDto>(createdUser), Token = _jwtProvider.GenerateToken(createdUser) }, System.Net.HttpStatusCode.Created);
         }
     }
 }

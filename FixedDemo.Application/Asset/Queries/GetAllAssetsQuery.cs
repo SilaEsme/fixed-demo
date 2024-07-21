@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using FixedDemo.Application.Core.Abstract.Data;
-using FixedDemo.Application.Core.Dtos;
-using FixedDemo.Application.Core.Dtos.Asset;
 using FixedDemo.Application.Core.Extentions;
-using FixedDemo.Domain.Wrapper;
+using FixedDemo.Shared.Dtos;
+using FixedDemo.Shared.Dtos.Asset;
+using FixedDemo.Shared.Wrapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
 

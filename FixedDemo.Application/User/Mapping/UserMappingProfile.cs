@@ -7,7 +7,7 @@ namespace FixedDemo.Application.User.Mapping
     {
         public UserMappingProfile()
         {
-            CreateMap<Domain.Entities.User, Core.Dtos.User.UserDto>();
+            CreateMap<Domain.Entities.User, Shared.Dtos.User.UserDto>();
             CreateMap<RegisterUserCommand, Domain.Entities.User>()
                 .ForMember(m => m.PasswordSalt, opt => opt.Ignore())
                 .ForMember(m => m.PasswordHash, opt => opt.Ignore());
