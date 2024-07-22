@@ -13,17 +13,17 @@ namespace FixedDemo.API.Abstract
             if (result.StatusCode == System.Net.HttpStatusCode.NoContent)
                 return new NoContentResult();
             else if (result.StatusCode == System.Net.HttpStatusCode.BadRequest)
-                return new BadRequestObjectResult(result.Errors);
+                return new BadRequestObjectResult(result);
             else if (result.StatusCode == System.Net.HttpStatusCode.Unauthorized)
-                return new UnauthorizedObjectResult(result.Errors);
+                return new UnauthorizedObjectResult(result);
             else if (result.StatusCode == System.Net.HttpStatusCode.Forbidden)
-                return new ForbidResult(result.Errors);
+                return new ForbidResult(result.Message);
             else if (result.StatusCode == System.Net.HttpStatusCode.NotFound)
-                return new NotFoundObjectResult(result.Errors);
+                return new NotFoundObjectResult(result);
             else if (result.StatusCode == System.Net.HttpStatusCode.InternalServerError)
-                return new ObjectResult(result.Errors) { StatusCode = (int)result.StatusCode };
+                return new ObjectResult(result) { StatusCode = (int)result.StatusCode };
             else
-                return new ObjectResult(result.Data) { StatusCode = (int)result.StatusCode };
+                return new ObjectResult(result) { StatusCode = (int)result.StatusCode };
         }
         [NonAction]
         public Guid GetUserIdFromHeader()

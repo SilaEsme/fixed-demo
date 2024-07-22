@@ -1,0 +1,48 @@
+﻿@page "/login"
+@using FixedDemo.Shared.Dtos.User
+@inject IAuthenticationService _authenticationService
+@inject ILocalStorageService _localStorageService
+@inject AuthenticationStateProvider _authenticationStateProvider
+@inject NavigationManager _navigationManager
+
+<PageTitle>Login</PageTitle>
+<EditForm model="request" OnValidSubmit="HandleLogin">
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+    <div class="mb-3">
+        <label for="Email" class="form-label">Email</label>
+        <InputText id="Email" class="form-control" @bind-Value="request.Email" />
+        <ValidationMessage For="@(() => request.Email)" />
+    </div>
+    <div class="mb-3">
+        <label for="Password" class="form-label">Password</label>
+        <InputText id="Password" class="form-control" @bind-Value="request.Password" />
+        <ValidationMessage For="@(() => request.Password)" />
+    </div>
+    <ValidationSummary></ValidationSummary>
+    <button type="submit" class="btn btn-primary">Login</button>
+</EditForm>
+<div class="text-danger">
+    <span>@errorMessage</span>
+</div>
+
+@code {
+    LoginRequestDto request = new LoginRequestDto();
+    string errorMessage = string.Empty;
+    string errorMessageCssClass = string.Empty;
+    private async Task HandleLogin()
+    {
+        var response = await _authenticationService.LoginAsync(request);
+        if (response.IsSuccess)
+        {
+            errorMessage = string.Empty;
+            await _localStorageService.SetItemAsync("token", response.Data.Token.Token);
+            await _authenticationStateProvider.GetAuthenticationStateAsync();
+            _navigationManager.NavigateTo("/");
+        }
+        else
+        {
+            errorMessage = response.Message ?? string.Concat(response.Errors);
+        }
+    }
+
+}

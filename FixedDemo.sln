@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FixedDemo.Infrastructure", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FixedDemo.App", "FixedDemo.App\FixedDemo.App.csproj", "{08378CC8-87BB-4409-8914-F607D363DD92}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixedDemo.Shared", "FixedDemo.Shared\FixedDemo.Shared.csproj", "{964FD009-097B-4CE9-AAA1-712CF1082AE7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FixedDemo.Shared", "FixedDemo.Shared\FixedDemo.Shared.csproj", "{964FD009-097B-4CE9-AAA1-712CF1082AE7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
