@@ -22,7 +22,6 @@ namespace FixedDemo.App.Services.Authentication
         public async Task<ApiResult<UserDataDto>> LoginAsync(LoginRequestDto request)
         {
             var result = await _httpClient.PostAsJsonAsync("api/user/login", request);
-            Console.WriteLine(result.Content);
             return await result.Content.ReadFromJsonAsync<ApiResult<UserDataDto>>();
         }
 

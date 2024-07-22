@@ -1,0 +1,50 @@
+﻿@page "/inventory/edit/{id:guid}"
+@using FixedDemo.App.Services.Data
+@using FixedDemo.Shared.Dtos.Asset
+@inject IInventoryService _inventoryService
+@inject NavigationManager _navigationManager
+
+<PageTitle>Update Inventory</PageTitle>
+
+<EditForm Model="request" OnValidSubmit="HandleAddInventory">
+    <div class="mb-3">
+        <label for="brand">Brand</label>
+        <InputText id="brand" @bind-Value="request.Brand" class="form-control"></InputText>
+    </div>
+    <div class="mb-3">
+        <label for="model">Model</label>
+        <InputText id="model" @bind-Value="request.Model" class="form-control"></InputText>
+    </div>
+    <div class="mb-3">
+        <label for="serial-number">Serial Number</label>
+        <InputText id="serial-number" @bind-Value="request.SerialNumber" class="form-control"></InputText>
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
+</EditForm>
+
+@code {
+    [Parameter] 
+    public Guid id { get; set; }
+    private UpdateAssetRequestDto request = new();
+    private IEnumerable<AssetDto> assets = new List<AssetDto>();
+    private async Task HandleAddInventory()
+    {
+        request.Id = id;
+        await _inventoryService.UpdateAssetAsync(request);
+        _navigationManager.NavigateTo("/inventory");
+    }
+    protected override Task OnInitializedAsync()
+    {
+        var item = _inventoryService.Inventory.FirstOrDefault(i => i.Id == id);
+        if(item == null)
+        {
+            _navigationManager.NavigateTo("/inventory");
+        }
+
+        request.SerialNumber = item.SerialNumber;
+        request.Brand = item.Brand;
+        request.Model = item.Model;
+
+        return base.OnInitializedAsync();
+    }
+}

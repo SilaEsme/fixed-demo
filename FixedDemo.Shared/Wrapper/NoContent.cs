@@ -1,4 +1,4 @@
-﻿namespace FixedDemo.Domain.Primitives
+﻿namespace FixedDemo.Shared.Wrapper
 {
     public struct NoContent
     {

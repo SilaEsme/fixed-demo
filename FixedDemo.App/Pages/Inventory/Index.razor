@@ -1,0 +1,24 @@
+﻿@page "/inventory"
+@using FixedDemo.App.Services.Data
+@using FixedDemo.Shared.Dtos.Asset
+@inject IInventoryService _inventoryService
+@inject NavigationManager _navigationManager
+
+<PageTitle>Inventory</PageTitle>
+<AuthorizeView>
+    <Authorized>
+        <div class="m-3">
+            <button class="btn btn-primary" onclick="@(() => _navigationManager.NavigateTo("/inventory/add"))">Add Inventory</button>
+        </div>
+        <InventoryList></InventoryList>
+    </Authorized>
+    <NotAuthorized>
+        <p>You are not authorized to view this page.</p>
+    </NotAuthorized>
+</AuthorizeView>
+
+
+
+@code {
+    private IEnumerable<AssetDto> inventory = new List<AssetDto>();
+}

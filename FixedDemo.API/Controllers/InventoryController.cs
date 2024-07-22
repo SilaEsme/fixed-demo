@@ -1,4 +1,5 @@
 ﻿using FixedDemo.API.Abstract;
+using FixedDemo.Shared.Dtos.Asset;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,9 +15,9 @@ namespace FixedDemo.API.Controllers
         }
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> GetAll(Application.Asset.Queries.GetAllAssetsQuery query)
+        public async Task<IActionResult> GetAll(GetInventoryRequestDto request)
         {
-            var result = await _mediator.Send(query);
+            var result = await _mediator.Send(new Application.Asset.Queries.GetAllAssetsQuery() { Filter = request.Filter});
             return CreateActionResult(result);
         }
         [Authorize]
@@ -28,16 +29,27 @@ namespace FixedDemo.API.Controllers
         }
         [Authorize]
         [HttpPost("[action]")]
-        public async Task<IActionResult> Add([FromBody] Application.Asset.Commands.CreateAssetCommand command)
+        public async Task<IActionResult> Add([FromBody] CreateAssetRequestDto request)
         {
-            var result = await _mediator.Send(command);
+            var result = await _mediator.Send(new Application.Asset.Commands.CreateAssetCommand()
+            {
+                Brand = request.Brand,
+                Model = request.Model,
+                SerialNumber = request.SerialNumber,
+            });
             return CreateActionResult(result);
         }
         [Authorize]
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody] Application.Asset.Commands.UpdateAssetCommand command)
+        public async Task<IActionResult> Put([FromBody] UpdateAssetRequestDto request)
         {
-            var result = await _mediator.Send(command);
+            var result = await _mediator.Send(new Application.Asset.Commands.UpdateAssetCommand() 
+            { 
+                Id = request.Id,
+                Brand = request.Brand,
+                Model = request.Model,
+                SerialNumber = request.SerialNumber,
+            });
             return CreateActionResult(result);
         }
         [Authorize]

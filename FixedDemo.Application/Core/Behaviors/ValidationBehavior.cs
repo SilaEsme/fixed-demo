@@ -1,5 +1,4 @@
-﻿using FixedDemo.Domain.Primitives;
-using FixedDemo.Shared.Wrapper;
+﻿using FixedDemo.Shared.Wrapper;
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;

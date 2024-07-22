@@ -1,5 +1,4 @@
 ﻿using FixedDemo.Application.Core.Abstract.Data;
-using FixedDemo.Domain.Primitives;
 using FixedDemo.Shared.Wrapper;
 using MediatR;
 using Microsoft.Extensions.Logging;

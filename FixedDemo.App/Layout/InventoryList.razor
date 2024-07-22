@@ -1,0 +1,59 @@
+﻿@using FixedDemo.App.Services.Data
+@using FixedDemo.Shared.Dtos.Asset
+@using Microsoft.AspNetCore.Components.QuickGrid
+@inject IInventoryService _inventoryService
+@inject NavigationManager _navigationManager
+@implements IDisposable
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Inventory</h3>
+                </div>
+                <div class="card-body align-content-center">
+                    <QuickGrid Items="@inventory">
+                        <PropertyColumn Property="@(i => i.Brand)" Sortable="true" Align="Align.Right">
+                            @*             <ColumnOptions>
+                            <div class="search-box">
+                            <input type="search" autofocus @bind="nameFilter" @bind:event="oninput" placeholder="Country name..." />
+                            </div>
+                            </ColumnOptions> *@
+                        </PropertyColumn>
+                        <PropertyColumn Property="@(i => i.Model)" Sortable="true" Align="Align.Right" />
+                        <PropertyColumn Title="Serial Number" Property="@(i => i.SerialNumber)" Sortable="true" Align="Align.Right" />
+                        <TemplateColumn Title="Action">
+                            <button @onclick="@(() => HandleEdit(context))" class="btn btn-info">Edit</button>
+                            <button @onclick="@(() => HandleDelete(context))" class="btn btn-danger">Delete</button>
+                        </TemplateColumn>
+                    </QuickGrid>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private IQueryable<AssetDto> inventory = new List<AssetDto>().AsQueryable();
+    private void HandleEdit(AssetDto asset)
+    {
+        _navigationManager.NavigateTo($"/inventory/edit/{asset.Id}");
+    }
+    private async Task HandleDelete(AssetDto asset)
+    {
+        await _inventoryService.DeleteAssetAsync(asset.Id);
+        _navigationManager.Refresh();
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        await _inventoryService.GetInventoryItemsAsync(new Shared.Dtos.Asset.GetInventoryRequestDto());
+        inventory = _inventoryService.Inventory.AsQueryable();
+        _inventoryService.OnChange += StateHasChanged;
+
+    }
+    public void Dispose()
+    {
+        _inventoryService.OnChange -= StateHasChanged;
+    }
+}

@@ -1,0 +1,39 @@
+﻿@page "/inventory/add"
+@using FixedDemo.App.Services.Data
+@using FixedDemo.Shared.Dtos.Asset
+@inject IInventoryService _inventoryService
+@inject NavigationManager _navigationManager
+
+<PageTitle>Add Inventory</PageTitle>
+
+<EditForm Model="request" OnValidSubmit="HandleAddInventory">
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+    <div class="mb-3">
+        <label for="brand">Brand</label>
+        <InputText id="brand" @bind-Value="request.Brand" class="form-control"></InputText>
+        <ValidationMessage For="@(()=>request.Brand)"></ValidationMessage>
+    </div>
+    <div class="mb-3">
+        <label for="model">Model</label>
+        <InputText id="model" @bind-Value="request.Model" class="form-control"></InputText>
+        <ValidationMessage For="@(()=>request.Model)"></ValidationMessage>
+    </div>
+    <div class="mb-3">
+        <label for="serial-number">Serial Number</label>
+        <InputText id="serial-number" @bind-Value="request.SerialNumber" class="form-control"></InputText>
+        <ValidationMessage For="@(()=>request.SerialNumber)"></ValidationMessage>
+    </div>
+    <ValidationSummary></ValidationSummary>
+    <button type="submit" class="btn btn-primary">Add</button>
+</EditForm>
+
+
+@code {
+    private CreateAssetRequestDto request = new();
+    private IEnumerable<AssetDto> assets = new List<AssetDto>();
+    private async Task HandleAddInventory()
+    {
+        await _inventoryService.AddAssetAsync(request);
+        _navigationManager.NavigateTo("/");
+    }
+}
